@@ -15,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.domain.Persistable;
 
 /**
@@ -28,6 +30,7 @@ public class Userx implements Persistable<String>, Serializable, Comparable<User
 
     private static final long serialVersionUID = 1L;
 
+
     @Id
     @Column(length = 100)
     private String username;
@@ -39,6 +42,7 @@ public class Userx implements Persistable<String>, Serializable, Comparable<User
     private Date createDate;
     @ManyToOne(optional = true)
     private Userx updateUser;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
 

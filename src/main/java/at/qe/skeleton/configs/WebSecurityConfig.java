@@ -1,16 +1,24 @@
 package at.qe.skeleton.configs;
 
 import javax.sql.DataSource;
+
+
+import at.qe.skeleton.repositories.UserxRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+
 
 /**
  * Spring configuration for web security.
@@ -24,6 +32,8 @@ public class WebSecurityConfig {
 
     @Autowired
     DataSource dataSource;
+    @Autowired
+    UserxRepository userxRepository;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -52,9 +62,9 @@ public class WebSecurityConfig {
             .hasAnyAuthority("ADMIN", "MANAGER", "EMPLOYEE")
             .and().formLogin()
             .loginPage("/login.xhtml")
-            .loginProcessingUrl("/login")
+            .loginProcessingUrl("/login").failureUrl("/error/access_denied.xhtml")
             .defaultSuccessUrl("/secured/welcome.xhtml");
-                
+
         // :TODO: user failureUrl(/login.xhtml?error) and make sure that a corresponding message is displayed
  
         http.exceptionHandling().accessDeniedPage("/error/access_denied.xhtml");
@@ -74,6 +84,10 @@ public class WebSecurityConfig {
     @Bean
     public static PasswordEncoder passwordEncoder() {
         // :TODO: use proper passwordEncoder and do not store passwords in plain text
-        return NoOpPasswordEncoder.getInstance();
+
+
+        return new BCryptPasswordEncoder();
     }
+
+
 }

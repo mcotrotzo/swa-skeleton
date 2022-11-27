@@ -43,8 +43,9 @@ public class UserDetailController implements Serializable {
      *
      * @return
      */
-    public Userx getUser() {
+   public Userx getUser() {
         return user;
+
     }
 
     /**
@@ -68,5 +69,7 @@ public class UserDetailController implements Serializable {
         this.userService.deleteUser(user);
         user = null;
     }
+
+
 
 }

@@ -3,6 +3,9 @@ package at.qe.skeleton.services;
 import at.qe.skeleton.model.Userx;
 import java.util.Collection;
 import java.util.Date;
+
+import at.qe.skeleton.ui.controllers.AuditLog;
+import at.qe.skeleton.ui.controllers.UserListController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,6 +13,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import at.qe.skeleton.repositories.UserxRepository;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * Service for accessing and manipulating user data.
@@ -22,7 +27,9 @@ import at.qe.skeleton.repositories.UserxRepository;
 public class UserxService {
 
     @Autowired
-    private UserxRepository userRepository;
+    private UserxRepository userRepository ;
+    @Autowired
+    private AuditLog auditLog;
 
     /**
      * Returns a collection of all users.
@@ -66,13 +73,17 @@ public class UserxService {
         return userRepository.save(user);
     }
 
+
     /**
      * Deletes the user.
      *
      * @param user the user to delete
      */
+
     @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteUser(Userx user) {
+        user.setUpdateDate(new Date());
+        auditLog.addDeletedUser(user);
         userRepository.delete(user);
         // :TODO: write some audit log stating who and when this user was permanently deleted.
     }
