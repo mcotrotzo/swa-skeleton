@@ -21,13 +21,12 @@ public class UserCreateController {
     }
 
     public Userx getUser() {
+        if(this.user == null){
             this.user = new Userx();
-            user.setPassword("");
-            user.setFirstName("");
-            user.setLastName("");
-            user.setEmail("");
-            user.setPhone("");
-            return this.user;
+
+        }
+        return this.user;
+
 
 
     }

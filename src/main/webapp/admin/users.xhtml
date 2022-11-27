@@ -90,7 +90,16 @@
                            <p:panelGrid columns="2">
                                <p:outputLabel for="username2" value="Username:"/>
                                <p:inputText  id = "username2" value="#{userCreateController.user.username}"/>
-
+                               <p:outputLabel for="password2" value="Password:"/>
+                               <p:inputText  id = "password2" value="#{userCreateController.user.password}"/>
+                               <p:outputLabel for="firstName2" value="First Name: "/>
+                               <p:inputText id="firstName2" value="#{userCreateController.user.firstName}"/>
+                               <p:outputLabel for="lastName2" value="Last Name: "/>
+                               <p:inputText id="lastName2" value="#{userCreateController.user.lastName}"/>
+                               <p:outputLabel for="email2" value="E-Mail: "/>
+                               <p:inputText id="email2" value="#{userCreateController.user.email}"/>
+                               <p:outputLabel for="phone2" value="Phone: "/>
+                               <p:inputMask id="phone2" value="#{userCreateController.user.phone}" mask="+99? 999 9999999"/>
 
                            </p:panelGrid>
                        <p:commandButton value="Save" action="#{userCreateController.doSaveUser()}"
